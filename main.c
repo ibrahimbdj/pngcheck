@@ -10,7 +10,7 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	if(strcmp(argv[1], "info") == 0) info(fopen(argv[2], "r"));
+	if(strcmp(argv[1], "list") == 0) list(fopen(argv[2], "r"));
 	else if(strcmp(argv[1], "cat") == 0) cat(fopen(argv[2], "r"));
 	return 0;
 }
