@@ -30,7 +30,7 @@ long chunkData(FILE* file){
 int chunkCrc(FILE* file){
 	unsigned char* crcbuf = malloc(4);
 	fread(crcbuf, 1, 4, file);
-	int crc = (((unsigned int)*crcbuf << 24) | (*(crcbuf+1) << 16) | (*(crcbuf+2) << 8)  | *(crcbuf+3));
+	return (((unsigned int)*crcbuf << 24) | (*(crcbuf+1) << 16) | (*(crcbuf+2) << 8)  | *(crcbuf+3));
 }
 
 struct chunk* chunkParser(FILE* file, unsigned char* buffer){
@@ -38,10 +38,10 @@ struct chunk* chunkParser(FILE* file, unsigned char* buffer){
 	char* ctype = chunkType(file);
 	long dataOffset = chunkData(file);
 	fseek(file, dataLen, SEEK_CUR);
-	unsigned char* crc = chunkCrc(file);
-	struct chunk* c = malloc(sizeof(c));
+	int crc = chunkCrc(file);
+	struct chunk* c = malloc(sizeof(struct chunk));
 	*c = (struct chunk){dataLen, ctype, dataOffset, crc, NULL};
-	return &c;
+	return c;
 }
 
 int ihdr(FILE*  file, unsigned char* buffer, long dataLen){

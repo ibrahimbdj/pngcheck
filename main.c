@@ -11,7 +11,7 @@ int main(int argc, char* argv[]){
 	}
 
 	FILE* file = fopen(argv[2], "r");
-
+	if(isPng(file) > 0) exit(1);
 	if(strcmp(argv[1], "list") == 0) list(file);
 	else if(strcmp(argv[1], "cat") == 0) cat(file);
 	
