@@ -18,7 +18,10 @@ int ihdr(FILE*  file, unsigned char* buffer, long dataLen){
 void isPng(FILE* file, unsigned char* buffer){
 	int t = fread(buffer, 1, 8, file);
 	if(memcmp(PNG, buffer, t) == 0) printf("File type: png\n");
-	else printf("Wrond file type: png file required\n");
+	else {
+		printf("Wrond file type: png file required\n");
+		exit(1);
+	}
 }
 
 long chunkLength(FILE* file, unsigned char*  buffer){
@@ -33,8 +36,10 @@ char* chunkType(FILE* file, unsigned char* buffer){
 	return (char*) buffer;
 }
 
+void info(FILE* file){}
+
 void chunkRead(FILE* file, unsigned char* buffer){
-	long dataLen = chunkLength(file, buffer);
+	//long dataLen = chunkLength(file, buffer);
 	//struct chunk_type* ctype = chunkType(file, buffer);
 	//ctype-> chunkDataRead(file, buffer, dataLen);
 }
@@ -50,6 +55,7 @@ void cat(FILE* file){
 		tmp = fread(buffer, 1, 48, file);
 		printf("\n");
 	}
+	free(buffer);
 }
 
 void  list(FILE* file){
@@ -61,6 +67,7 @@ void  list(FILE* file){
 
 	printf("\n");
 	printf("OFFSET    TYPE    LONGUEUR    CLASSE\n");
+	
 	long offset;
 	long dataLen;
 	char* ctype;
@@ -68,9 +75,19 @@ void  list(FILE* file){
 		offset =  ftell(file);
 		dataLen = chunkLength(file, buffer);
 		ctype = chunkType(file, buffer);
-		printf("%ld    %s    %ld    à remplir\n", offset, ctype, dataLen);
+
+		int lect = printf("%ld", offset);
+		for(int i = 0; i < (10-lect);  i++) printf(" ");
+
+		lect = printf("%s", ctype);
+		for(int i = 0; i < (8-lect);  i++) printf(" ");
+
+		lect = printf("%ld", dataLen);
+		for(int i = 0; i < (12-lect);  i++) printf(" ");
+
+		printf("a venir\n");
 		fseek(file, (dataLen+4), SEEK_CUR);
 	}while(strcmp(ctype, "IEND") != 0);
-
+	printf("\n\n");
 	free(buffer);
 }

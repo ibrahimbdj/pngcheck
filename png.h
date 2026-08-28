@@ -3,4 +3,6 @@
 
 void list(FILE* file);
 void cat(FILE* file);
+void info(FILE*  file);
+
 #endif
