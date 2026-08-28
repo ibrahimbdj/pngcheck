@@ -4,20 +4,14 @@
 #include <ctype.h>
 #include "chunk.h"
 
-struct chunk_type typeFnct = {"IHDR", ihdr};
 unsigned char PNG[] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 int len = 256;
 
-void isPng(FILE* file, unsigned char* buffer){
+int isPng(FILE* file, unsigned char* buffer){
 	int t = fread(buffer, 1, 8, file);
-	if(memcmp(PNG, buffer, t) == 0) printf("File type: png\n");
-	else {
-		printf("Wrond file type: png file required\n");
-		exit(1);
-	}
+	if(memcmp(PNG, buffer, t) == 0) return 0;
+	else return 1;
 }
-
-void info(FILE* file){}
 
 void cat(FILE* file){
 	unsigned char* buffer = malloc(len);
@@ -32,12 +26,11 @@ void cat(FILE* file){
 	free(buffer);
 }
 
-void  list(FILE* file){
+void list(FILE* file){
 
     unsigned char* buffer = malloc(len);
-	//unsigned char* tmp = buffer;
 
-	isPng(file, buffer);
+	if (isPng(file, buffer) > 0) exit(1);
 
 	printf("\n");
 	printf("OFFSET    TYPE    Size    CLASS\n");
@@ -51,13 +44,13 @@ void  list(FILE* file){
 		ctype = chunkType(file, buffer);
 
 		int lect = printf("%ld", offset);
-		for(int i = 0; i < (10-lect);  i++) printf(" ");
+		for(int i = 0; i < (10-lect); i++) printf(" ");
 
 		lect = printf("%s", ctype);
-		for(int i = 0; i < (8-lect);  i++) printf(" ");
+		for(int i = 0; i < (8-lect); i++) printf(" ");
 
 		lect = printf("%ld", dataLen);
-		for(int i = 0; i < (8-lect);  i++) printf(" ");
+		for(int i = 0; i < (8-lect); i++) printf(" ");
 
 		if(isupper(*ctype) > 0) printf("Critical\n");
 		else printf("Anciliary\n");
