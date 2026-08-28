@@ -1,5 +1,8 @@
-pngcheck: main.o png.o
-	gcc -o pngcheck main.o png.o
+pngcheck: main.o png.o chunk.o
+	gcc -o pngcheck main.o png.o chunk.o
+
+chunk.o: chunk.c
+	gcc -Wall -MMD -c chunk.c
 
 main.o: main.c
 	gcc -Wall -MMD -c main.c
@@ -10,4 +13,4 @@ png.o: png.c
 clean:
 	rm -f pngcheck *.o *.d
 
--include main.d png.d
+-include main.d png.d chunk.d

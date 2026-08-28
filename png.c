@@ -1,19 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "chunk.h"
 
-int ihdr(FILE* file, unsigned char* buffer, long dataLen);
-
+struct chunk_type typeFnct = {"IHDR", ihdr};
 unsigned char PNG[] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 int len = 256;
-
-struct chunk_type { char* type; int (*chunkDataRead)(FILE* file, unsigned char* buffer, long dataLen);};
-struct chunk_type typeFnct[2] = {{"IHDR", ihdr}, {NULL, NULL}};
-
-int ihdr(FILE*  file, unsigned char* buffer, long dataLen){
-	printf("ihdr\n");
-	return 0;
-}
 
 void isPng(FILE* file, unsigned char* buffer){
 	int t = fread(buffer, 1, 8, file);
@@ -24,26 +16,7 @@ void isPng(FILE* file, unsigned char* buffer){
 	}
 }
 
-long chunkLength(FILE* file, unsigned char*  buffer){
-	fread(buffer, 1, 4, file);
-	return ((*buffer << 24) | (*(buffer+1) << 16) | *(buffer+2) << 8  | *(buffer+3));
-}
-
-char* chunkType(FILE* file, unsigned char* buffer){
-
-	fread(buffer, 1, 4, file);
-	*(buffer+4) = '\0';
-	return (char*) buffer;
-}
-
 void info(FILE* file){}
-
-void chunkRead(FILE* file, unsigned char* buffer){
-	//long dataLen = chunkLength(file, buffer);
-	//struct chunk_type* ctype = chunkType(file, buffer);
-	//ctype-> chunkDataRead(file, buffer, dataLen);
-}
-
 
 void cat(FILE* file){
 	unsigned char* buffer = malloc(len);
@@ -60,7 +33,7 @@ void cat(FILE* file){
 
 void  list(FILE* file){
 
-        unsigned char* buffer = malloc(len);
+    unsigned char* buffer = malloc(len);
 	//unsigned char* tmp = buffer;
 
 	isPng(file, buffer);
