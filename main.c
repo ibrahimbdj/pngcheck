@@ -6,7 +6,7 @@
 int main(int argc, char* argv[]){
 
 	if(argc < 2) {
-		printf("\nUtilisation: png <commande> <file>\n\n");
+		printf("\nUsage: pngcheck <commande> <file>\n\n");
 		return 1;
 	}
 

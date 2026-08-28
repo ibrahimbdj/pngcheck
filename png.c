@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "chunk.h"
 
 struct chunk_type typeFnct = {"IHDR", ihdr};
@@ -39,7 +40,7 @@ void  list(FILE* file){
 	isPng(file, buffer);
 
 	printf("\n");
-	printf("OFFSET    TYPE    LONGUEUR    CLASSE\n");
+	printf("OFFSET    TYPE    Size    CLASS\n");
 	
 	long offset;
 	long dataLen;
@@ -56,9 +57,10 @@ void  list(FILE* file){
 		for(int i = 0; i < (8-lect);  i++) printf(" ");
 
 		lect = printf("%ld", dataLen);
-		for(int i = 0; i < (12-lect);  i++) printf(" ");
+		for(int i = 0; i < (8-lect);  i++) printf(" ");
 
-		printf("a venir\n");
+		if(isupper(*ctype) > 0) printf("Critical\n");
+		else printf("Anciliary\n");
 		fseek(file, (dataLen+4), SEEK_CUR);
 	}while(strcmp(ctype, "IEND") != 0);
 	printf("\n\n");
