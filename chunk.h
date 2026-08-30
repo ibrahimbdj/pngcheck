@@ -1,6 +1,9 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 struct chunk { 
 	long dataLen; 
 	char* type; 
