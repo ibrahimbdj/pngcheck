@@ -4,17 +4,32 @@
 #include "png.h"
 
 int main(int argc, char* argv[]){
-
 	if(argc < 2) {
 		printf("\nUsage: pngcheck <commande> <file>\n\n");
 		return 1;
 	}
 
 	FILE* file = fopen(argv[2], "r");
-	if(isPng(file) > 0) exit(1);
-	if(strcmp(argv[1], "list") == 0) list(file);
+	if(strcmp(argv[1], "ispng") == 0) {
+		if(isPng(file) > 0){
+			printf("not PNG\n");
+			return 1;
+		}else{
+			printf("PNG file\n");
+			return 0;
+		}
+	}
+	else if(strcmp(argv[1], "list") == 0) list(file);
 	else if(strcmp(argv[1], "cat") == 0) cat(file);
-	
+	else if(strcmp(argv[1], "integrity") == 0) {
+		if(integrity(file) > 0){
+			printf("PNG Corrupted");
+			return 1;
+		}else{
+			printf("PNG not corrupted\n");
+			return 0;
+		}
+	}
 	fclose(file);
 	return 0;
 }
