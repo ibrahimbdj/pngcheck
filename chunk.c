@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 int ihdr(FILE* file, unsigned char* buffer, long dataLen);
 
@@ -44,6 +45,11 @@ struct chunk* chunkParser(FILE* file){
 	struct chunk* c = malloc(sizeof(struct chunk));
 	*c = (struct chunk){dataLen, ctype, dataOffset, crc, NULL};
 	return c;
+}
+
+int isCritical(struct chunk* c){
+	if(isupper((unsigned char)*(c->type))) return 1;
+	else return 0;
 }
 
 unsigned int inverseByte(unsigned int x){

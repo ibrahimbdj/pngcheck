@@ -39,7 +39,6 @@ void list(FILE* file){
 	printf("OFFSET    TYPE    Size    CLASS\n");
 	struct chunk* c;
 	do{
-
 		int lect = printf("%ld", ftell(file));
 		for(int i = 0; i < (10-lect); i++) printf(" ");
 
@@ -51,7 +50,7 @@ void list(FILE* file){
 		lect = printf("%ld", c->dataLen);
 		for(int i = 0; i < (8-lect); i++) printf(" ");
 
-		if(isupper((unsigned char)*(c->type)) > 0) printf("Critical\n");
+		if(isCritical(c)) printf("Critical\n");
 		else printf("Anciliary\n");
 	}while(strcmp(c->type, "IEND") != 0);
 	printf("\n\n");
@@ -71,5 +70,37 @@ int integrity(FILE* file){
 		free(c->type);
 		free(c);
 	}while(strcmp(ctype, "IEND") != 0);
+	return 0;
+}
+
+int delmd(FILE* src, char* destname){
+	FILE* dest = fopen(destname, "w+");
+	unsigned char* copyBuf = malloc(1024);
+	struct chunk* c;
+
+	fwrite(PNG, 1, 8, dest);
+	fseek(src, 8, SEEK_SET);
+
+	do {
+		c = chunkParser(src);
+		if(isCritical(c)){
+			long curPos = ftell(src);
+			fseek(src, c->dataOffset - 8, SEEK_SET);
+			long restant = c->dataLen + 12;
+			while(restant > 0){
+				if(restant >= 1024){
+					fread(copyBuf, 1, 1024, src);
+					fwrite(copyBuf, 1, 1024, dest);
+					restant = restant - 1024;
+				} else{
+					fread(copyBuf, 1, restant, src);
+					fwrite(copyBuf, 1, restant,  dest);
+					restant = 0;
+				}
+			}
+			fseek(src, curPos, SEEK_SET);
+		}
+	} while(strcmp(c->type, "IEND") != 0);
+	fclose(dest);
 	return 0;
 }

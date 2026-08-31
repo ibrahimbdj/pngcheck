@@ -4,8 +4,8 @@
 #include "png.h"
 
 int main(int argc, char* argv[]){
-	if(argc < 2) {
-		printf("\nUsage: pngcheck <commande> <file>\n\n");
+	if(argc < 3) {
+		printf("\nUsage: pngcheck <command> <file>\n\n");
 		return 1;
 	}
 
@@ -29,6 +29,11 @@ int main(int argc, char* argv[]){
 			printf("PNG not corrupted\n");
 			return 0;
 		}
+	} else if(strcmp(argv[1], "delmd") ==  0){
+		if(argc < 4){
+			printf("\nUsage: pngcheck delmd <src> <dest>\n\n");
+			return 1;
+		} else return delmd(file, argv[3]);
 	}
 	fclose(file);
 	return 0;

@@ -14,5 +14,6 @@ struct chunk {
 int ihdr(FILE* file, unsigned char* buffer, long dataLen);
 struct chunk* chunkParser(FILE* file);
 int integrityChunk(struct chunk* c, FILE* file);
+int isCritical(struct chunk* c);
 
 #endif

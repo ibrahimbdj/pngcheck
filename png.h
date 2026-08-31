@@ -8,5 +8,6 @@ int isPng(FILE* file);
 void list(FILE* file);
 void cat(FILE* file);
 int integrity(FILE* file);
+int delmd(FILE* src, char* destname);
 
 #endif
