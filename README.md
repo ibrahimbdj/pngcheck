@@ -22,8 +22,10 @@ At some point, I'd like to:
 |---|---|---|
 | `ispng <file>` | Checks the 8-byte PNG signature | Done |
 | `list <file>` | Lists every chunk: offset, type, size, critical/ancillary class | minimum |
-| `cat <file>` | Prints the raw file as a hex dump | minimum |
-| `integrity <file>` | Recomputes and verifies the CRC of every chunk | minimum |
+| `cat <file>` | Prints the raw file as different format | minimum |
+| `integrity <file>` | Check PNG integrity | minimum |
 | `info <file>` | Decodes the IHDR: dimensions, bit depth, colour type, compression, filter and interlace methods, in plain text | minimum |
 | `delmd <src> <dest>` | Writes a copy containing only the critical chunks, and reports the number of bytes removed | minimum |
 | Text metadata injection | Inserting a `tEXt` chunk | Not implemented |
+
+New Features incoming...
