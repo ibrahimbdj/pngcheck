@@ -26,6 +26,6 @@ At some point, I'd like to:
 | `integrity <file>` | Check PNG integrity via crc | minimum |
 | `info <file>` | Provides a description of the file from various perspectives in plain text, (for example: width, heigth, compression methode, interlace, etc...)| minimum |
 | `delmd <src> <dest>` | Writes a copy removing the anciliary chunks and reports the number of bytes removed | minimum |
-|  `inject <type> [source]` | Inserts a chunk of the given type, reads its content from source or stdin if omitted | Not implemented |
+|  `inject <type> [source]` (may change)| Inserts a chunk of the given type, reads its content from source or stdin if omitted | Not implemented |
 
 New Features incoming...
