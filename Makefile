@@ -1,5 +1,5 @@
 pngcheck: main.o png.o chunk.o
-	gcc -o pngcheck main.o png.o chunk.o
+	gcc -o pngwalk main.o png.o chunk.o
 
 chunk.o: chunk.c
 	gcc -Wall -MMD -c chunk.c
