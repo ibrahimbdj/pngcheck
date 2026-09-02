@@ -134,6 +134,7 @@ int info(FILE* file){
 	fread(&filter, 1, 1, file);
 	fread(&interlace, 1, 1, file);
 
+	printf("\n");
 	printf("Width: %i\n", inv_uCharToInt(width));
 	printf("Heigth: %i\n", inv_uCharToInt(heigth));
 	printf("Bit depth: %i\n", bitDepth);
@@ -155,13 +156,40 @@ int info(FILE* file){
 		printf("Color type: %i, (Truecolor with alpha)\n", colorType);
 		break;
 	default:
-		printf("Color type unknown\n");
+		printf("Unknown Color type\n");
 		break;
 	}
 
-	//printf("Compression method: %i\n", compression);
-	//printf("Filter: %i\n", filter);
-	//printf("Interlace: %i\n", interlace);
+	switch (compression) {
+	case 0:
+		printf("Compression method: %i, (deflate compression with a sliding window of at most 32768 bytes)\n", compression);
+		break;
+	default:
+		printf("Unknown compression method\n");
+		break;
+	}
+
+	switch (filter) {
+	case 0:
+		printf("Filter method: %i, (adaptive filtering with five basic filter types)\n", filter);
+		break;
+	default:
+		printf("Unknown filter method\n");
+		break;
+	}
+
+	switch (interlace) {
+	case 0:
+		printf("Interlace method: %i, (no interlace)\n", interlace);
+		break;
+	case 1:
+		printf("Interlace method: %i, (Adam7 interlace)\n", interlace);
+		break;
+	default:
+		printf("Unknown interlace method\n");
+		break;
+	}
+	printf("\n");
 
 	free(width);
 	free(heigth);
