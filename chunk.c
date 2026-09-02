@@ -16,7 +16,7 @@ struct chunk {
 long chunkLength(FILE* file){
 	unsigned char buffer[4];
 	fread(buffer, 1, 4, file);
-	return (((unsigned int)*buffer << 24) | (*(buffer+1) << 16) | (*(buffer+2) << 8)  | *(buffer+3));
+	return (((unsigned int)*buffer << 24) | ((unsigned int)*(buffer+1) << 16) | ((unsigned int)*(buffer+2) << 8)  | *(buffer+3));
 }
 
 char* chunkType(FILE* file){
@@ -33,7 +33,7 @@ long chunkData(FILE* file){
 unsigned int chunkCrc(FILE* file){
 	unsigned char buf[4];
 	fread(buf, 1, 4, file);
-	return (((unsigned int)*(buf+3) << 24) | (*(buf+2) << 16) | (*(buf+1) << 8)  | *buf);
+	return (((unsigned int)*(buf+3) << 24) | ((unsigned int)*(buf+2) << 16) | ((unsigned int)*(buf+1) << 8)  | *buf);
 }
 
 struct chunk* chunkParser(FILE* file){

@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
 			printf("\nUsage: pngcheck delmd <src> <dest>\n\n");
 			return 1;
 		} else return delmd(file, argv[3]);
-	}
+	} else if(strcmp(argv[1], "info") == 0) info(file);
 	fclose(file);
 	return 0;
 }

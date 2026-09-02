@@ -77,12 +77,15 @@ int delmd(FILE* src, char* destname){
 	FILE* dest = fopen(destname, "w+");
 	unsigned char* copyBuf = malloc(1024);
 	struct chunk* c;
+	int gain = 0;
+	char* ctype;
 
 	fwrite(PNG, 1, 8, dest);
 	fseek(src, 8, SEEK_SET);
 
 	do {
 		c = chunkParser(src);
+		ctype = c->type;
 		if(isCritical(c)){
 			long curPos = ftell(src);
 			fseek(src, c->dataOffset - 8, SEEK_SET);
@@ -99,8 +102,69 @@ int delmd(FILE* src, char* destname){
 				}
 			}
 			fseek(src, curPos, SEEK_SET);
-		}
-	} while(strcmp(c->type, "IEND") != 0);
+		} else gain = 12 + c->dataLen;
+		free(c);
+	} while(strcmp(ctype, "IEND") != 0);
 	fclose(dest);
+	printf("%i byte(s) deleted\n", gain);
+	return 0;
+}
+
+unsigned int inv_uCharToInt(unsigned char* buf){
+	return (((unsigned int)*buf << 24) | ((unsigned int)*(buf+1) << 16) | ((unsigned int)*(buf+2) << 8)  | *(buf+3));
+}
+
+int info(FILE* file){
+	fseek(file, 8, SEEK_CUR);
+	struct chunk* c = chunkParser(file);
+	fseek(file, c->dataOffset, SEEK_SET);
+	unsigned char* width = malloc(4);
+	unsigned char* heigth = malloc(4);
+	unsigned char bitDepth;
+	unsigned char colorType;
+	unsigned char compression;
+	unsigned char filter;
+	unsigned char interlace;
+
+	fread(width, 1, 4, file);
+	fread(heigth, 1, 4, file);
+	fread(&bitDepth, 1, 1, file);
+	fread(&colorType, 1, 1, file);
+	fread(&compression, 1, 1, file);
+	fread(&filter, 1, 1, file);
+	fread(&interlace, 1, 1, file);
+
+	printf("Width: %i\n", inv_uCharToInt(width));
+	printf("Heigth: %i\n", inv_uCharToInt(heigth));
+	printf("Bit depth: %i\n", bitDepth);
+
+	switch (colorType) {
+	case 0:
+		printf("Color type: %i, (Greyscale)\n", colorType);
+		break;
+	case 2:
+		printf("Color type: %i, (Truecolor)\n", colorType);
+		break;
+	case 3:
+		printf("Color type: %i, (Indexed-color)\n", colorType);
+		break;
+	case 4:
+		printf("Color type: %i, (Greyscale with alpha)\n", colorType);
+		break;
+	case 6:
+		printf("Color type: %i, (Truecolor with alpha)\n", colorType);
+		break;
+	default:
+		printf("Color type unknown\n");
+		break;
+	}
+
+	//printf("Compression method: %i\n", compression);
+	//printf("Filter: %i\n", filter);
+	//printf("Interlace: %i\n", interlace);
+
+	free(width);
+	free(heigth);
+	free(c);
 	return 0;
 }
