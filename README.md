@@ -4,6 +4,8 @@ This project is unfinished. I'm currently working on other projects, so it's on 
 
 As it stands, it contains the basic features, themselves limited to the minimum of what they should provide.
 
+The code is also neither optimised nor necessarily clean.
+
 ## Future plans
 
 At some point, I'd like to:
