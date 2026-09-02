@@ -18,12 +18,12 @@ At some point, I'd like to:
 
 | Command | Description | Status |
 |---|---|---|
-| `ispng <file>` | Checks the 8-byte PNG signature | Done |
+| `ispng <file>` | Indicates whether it is a PNG | Done |
 | `list <file>` | Lists every chunk: offset, type, size, critical/ancillary class | minimum |
 | `cat <file>` | Prints the raw file as different format | minimum |
 | `integrity <file>` | Check PNG integrity | minimum |
-| `info <file>` | Decodes the IHDR: dimensions, bit depth, colour type, compression, filter and interlace methods, in plain text | minimum |
-| `delmd <src> <dest>` | Writes a copy containing only the critical chunks, and reports the number of bytes removed | minimum |
-| Text metadata injection | Inserting a `tEXt` chunk | Not implemented |
+| `info <file>` | Provides a description of the file from various perspectives in plain text, (for example: width, heigth, compression methode, interlace, etc...)| minimum |
+| `delmd <src> <dest>` | Writes a copy removing the anciliary chunks and reports the number of bytes removed | minimum |
+|  `inject <type> [source]` | Inserts a chunk of the given type, reads its content from source or stdin if omitted | Not implemented |
 
 New Features incoming...
