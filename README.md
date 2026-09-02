@@ -16,8 +16,6 @@ At some point, I'd like to:
 
 ## Feature status
 
-## Feature status
-
 | Command | Description | Status |
 |---|---|---|
 | `ispng <file>` | Checks the 8-byte PNG signature | Done |
