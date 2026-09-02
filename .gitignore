@@ -1,4 +1,4 @@
 *.o
 *.d
-pngcheck
+pngwalk
 test.png
